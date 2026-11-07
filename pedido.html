@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Faça um pedido · Apreciatta (site demonstrativo)</title>
+  <meta name="description" content="Monte seu pedido de pães, doces, salgados e bolos sob encomenda e envie pelo WhatsApp da Apreciatta. Retirada na loja.">
+  <meta name="theme-color" content="#692149">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="js/comum.js" defer></script>
+  <script src="js/pedido.js" defer></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <div class="aviso-demo" role="note">Site demonstrativo, criado como exemplo. Não é o site oficial da Apreciatta.</div>
+
+  <header class="cabecalho">
+    <div class="recipiente">
+      <a class="marca" href="./" aria-label="Apreciatta, página inicial">
+        <img src="img/logo-bordo.png" alt="" width="425" height="309">
+        <span>Apreciatta</span>
+      </a>
+      <nav aria-label="Principal">
+        <ul class="abas">
+          <li><a href="./">Início</a></li>
+          <li><a href="pedido.html" aria-current="page">Faça um pedido</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="pedido-topo">
+      <div class="recipiente">
+        <h1 class="titulo">Faça um pedido</h1>
+        <p class="intro texto-suave">Monte o pedido aqui e envie pelo WhatsApp. A equipe da Apreciatta responde confirmando o valor e o horário de retirada na loja.</p>
+        <ol class="passos">
+          <li><span><strong>Escolha os produtos</strong>do cardápio ou encomende um bolo do seu jeito.</span></li>
+          <li><span><strong>Informe a retirada</strong>com seu nome, o dia e o horário.</span></li>
+          <li><span><strong>Envie pelo WhatsApp</strong>a mensagem pronta e aguarde a confirmação.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="pedido-corpo">
+      <div class="recipiente">
+        <div>
+          <!-- Cardápio -->
+          <section class="bloco" id="cardapio" aria-labelledby="titulo-cardapio">
+            <h2 id="titulo-cardapio">Cardápio</h2>
+            <p class="texto-suave">Preços ilustrativos. Toque em + para adicionar ao pedido.</p>
+            <div class="filtros" role="group" aria-label="Filtrar cardápio por categoria" id="filtros"></div>
+            <div id="lista-cardapio"></div>
+          </section>
+
+          <!-- Bolo sob encomenda -->
+          <section class="bloco" id="bolo" aria-labelledby="titulo-bolo">
+            <h2 id="titulo-bolo">Bolo sob encomenda</h2>
+            <p class="texto-suave">Escolha massa, recheio, cobertura e tamanho. Bolos sob encomenda podem ser retirados a partir de 2 dias depois do pedido.</p>
+            <form id="form-bolo" novalidate>
+              <div class="campos">
+                <div class="campo">
+                  <label for="bolo-massa">Massa</label>
+                  <select id="bolo-massa" required>
+                    <option>Chocolate</option>
+                    <option>Baunilha</option>
+                    <option>Nozes</option>
+                    <option>Red velvet</option>
+                    <option>Pão de ló de laranja</option>
+                  </select>
+                </div>
+                <div class="campo">
+                  <label for="bolo-recheio">Recheio</label>
+                  <select id="bolo-recheio" required>
+                    <option>Brigadeiro</option>
+                    <option>Doce de leite com nozes</option>
+                    <option>Ninho com morango</option>
+                    <option>Frutas vermelhas</option>
+                    <option>Abacaxi com coco</option>
+                    <option>Mousse de maracujá</option>
+                  </select>
+                </div>
+                <div class="campo">
+                  <label for="bolo-cobertura">Cobertura</label>
+                  <select id="bolo-cobertura" required>
+                    <option>Chantilly</option>
+                    <option>Ganache de chocolate</option>
+                    <option>Chocolate branco</option>
+                    <option>Merengue maçaricado</option>
+                    <option>Nozes caramelizadas</option>
+                  </select>
+                </div>
+                <div class="campo">
+                  <label for="bolo-mensagem">Escrita no bolo (opcional)</label>
+                  <input id="bolo-mensagem" type="text" maxlength="40" placeholder="Ex.: Parabéns, Ana!">
+                </div>
+                <fieldset class="campo inteiro">
+                  <legend>Tamanho</legend>
+                  <div class="opcoes-tamanho" id="bolo-tamanhos"></div>
+                </fieldset>
+                <div class="campo inteiro">
+                  <label for="bolo-obs">Observações sobre o bolo (opcional)</label>
+                  <textarea id="bolo-obs" maxlength="300" placeholder="Ex.: decoração em tons de azul, sem frutas por cima"></textarea>
+                </div>
+              </div>
+              <div class="bolo-rodape">
+                <p class="valor" aria-live="polite">Valor estimado: <strong id="bolo-valor">R$ 0,00</strong></p>
+                <button type="submit" class="botao">Adicionar bolo ao pedido</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Retirada -->
+          <section class="bloco" id="retirada" aria-labelledby="titulo-retirada">
+            <h2 id="titulo-retirada">Retirada na loja</h2>
+            <p class="texto-suave">Rua Jaime Rossler, 120, Planalto. Loja aberta de segunda a sábado, das 7h às 18h45.</p>
+            <form id="form-retirada" novalidate>
+              <div class="campos">
+                <div class="campo">
+                  <label for="nome">Seu nome</label>
+                  <input id="nome" type="text" autocomplete="name" required aria-describedby="erro-nome">
+                  <p class="erro" id="erro-nome"></p>
+                </div>
+                <div class="campo">
+                  <label for="telefone">Telefone (opcional)</label>
+                  <input id="telefone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(54) 99999-9999">
+                </div>
+                <div class="campo">
+                  <label for="data">Dia da retirada</label>
+                  <input id="data" type="date" required aria-describedby="ajuda-data erro-data">
+                  <p class="ajuda" id="ajuda-data">Não abrimos aos domingos.</p>
+                  <p class="erro" id="erro-data"></p>
+                </div>
+                <div class="campo">
+                  <label for="hora">Horário</label>
+                  <select id="hora" required aria-describedby="erro-hora">
+                    <option value="">Escolha o dia primeiro</option>
+                  </select>
+                  <p class="erro" id="erro-hora"></p>
+                </div>
+                <div class="campo inteiro">
+                  <label for="observacoes">Observações (opcional)</label>
+                  <textarea id="observacoes" maxlength="400" placeholder="Ex.: embalar para presente"></textarea>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <!-- Resumo -->
+        <aside class="resumo-coluna" id="resumo" aria-labelledby="titulo-resumo">
+          <div class="resumo-sombra">
+            <div class="resumo">
+              <h2 id="titulo-resumo">Seu pedido</h2>
+              <p class="vazio" id="resumo-vazio">Seu pedido está vazio. Adicione produtos do cardápio ou encomende um bolo.</p>
+              <ul id="resumo-lista"></ul>
+              <div class="total"><span>Total estimado</span><strong id="resumo-total" aria-live="polite">R$ 0,00</strong></div>
+              <p class="obs-preco">Valor de referência; a padaria confirma o total pelo WhatsApp.</p>
+              <div class="retirada-info" id="resumo-retirada">Retirada: escolha o dia e o horário.</div>
+              <div class="aviso-horario" id="aviso-horario" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                <span id="aviso-horario-texto"></span>
+              </div>
+              <button type="button" class="botao whats" id="enviar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+                Enviar pedido pelo WhatsApp
+              </button>
+              <p class="erro erro-geral" id="erro-geral" role="alert"></p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="barra-pedido" id="barra-pedido">
+    <div class="info"><span id="barra-qtd">0 itens</span><strong id="barra-total">R$ 0,00</strong></div>
+    <a href="#resumo">Revisar e enviar</a>
+  </div>
+
+  <footer class="rodape">
+    <div class="recipiente">
+      <div>
+        <a class="marca" href="./"><img src="img/logo-branco.png" alt="" width="425" height="309"><span>Apreciatta</span></a>
+        <p>Padaria e confeitaria</p>
+      </div>
+      <div>
+        <p>Rua Jaime Rossler, 120, Planalto</p>
+        <p>Farroupilha (RS), 95170-356</p>
+      </div>
+      <div>
+        <p><a href="./">Início</a></p>
+        <p><a href="tel:+555434120019">(54) 3412-0019</a></p>
+        <p><a href="tel:+555430351444">(54) 3035-1444</a></p>
+      </div>
+      <p class="demo">Site demonstrativo, criado em <span id="ano">2026</span> como exemplo. Não é o site oficial da Apreciatta; preços e cardápio são ilustrativos.</p>
+    </div>
+  </footer>
+
+  <dialog class="confirmar" id="confirmar" aria-labelledby="confirmar-titulo">
+    <h2 id="confirmar-titulo">Fora do horário de atendimento</h2>
+    <p id="confirmar-texto"></p>
+    <div class="acoes">
+      <button type="button" class="botao secundario" data-acao="voltar">Voltar</button>
+      <button type="button" class="botao whats" data-acao="enviar">Enviar mesmo assim</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
