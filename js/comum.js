@@ -62,7 +62,7 @@
 
   function atualizarSituacao() {
     var a = agoraLocal();
-    document.querySelectorAll("[data-situacao]").forEach(function (el) {
+    document.querySelectorAll("[data-situacao-loja]").forEach(function (el) {
       if (dentro(HORARIO_LOJA, a)) {
         el.className = "situacao aberta";
         el.textContent = "Aberta agora, até as " + hm(HORARIO_LOJA[a.diaSemana][1]);
