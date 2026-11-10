@@ -261,7 +261,10 @@
       r.nome = this.value; salvar();
       if (this.value.trim()) { $("erro-nome").textContent = ""; this.setAttribute("aria-invalid", "false"); }
     });
-    $("telefone").addEventListener("input", function () { r.telefone = this.value; salvar(); });
+    $("telefone").addEventListener("input", function () {
+      r.telefone = this.value; salvar();
+      if (this.value.replace(/\D/g, "").length >= 10) { $("erro-telefone").textContent = ""; this.setAttribute("aria-invalid", "false"); }
+    });
     $("observacoes").addEventListener("input", function () { r.obs = this.value; salvar(); });
     $("data").addEventListener("change", function () {
       r.data = this.value; validarData(true); montarHorarios();
@@ -402,7 +405,45 @@
     document.body.appendChild(a); a.click(); a.remove();
   }
 
+  // ---------- demonstração: envio direto para a fila de pedidos ----------
+  function enviarParaFila() {
+    var tel = $("telefone"), digitos = tel.value.replace(/\D/g, "");
+    var telOk = digitos.length >= 10;
+    $("erro-telefone").textContent = telOk ? "" : "Para a fila, informe um telefone com WhatsApp: é por ele que a padaria avisa quando o pedido estiver pronto.";
+    tel.setAttribute("aria-invalid", telOk ? "false" : "true");
+    if (!validarTudo()) return;
+    if (!telOk) { tel.scrollIntoView({ behavior: "smooth", block: "center" }); tel.focus({ preventScroll: true }); return; }
+    if (!window.FilaDados) return;
+    var r = estado.retirada;
+    var p = FilaDados.adicionar({
+      nome: r.nome.trim(),
+      telefone: r.telefone.trim(),
+      retirada: { data: r.data, hora: r.hora },
+      itens: Object.keys(estado.itens).map(function (id) {
+        var x = PRODUTOS[id];
+        return { nome: x.nome, qtd: estado.itens[id], preco: x.preco, unidade: x.unidade || "" };
+      }),
+      bolos: estado.bolos.map(function (b) {
+        return { kg: b.kg, massa: b.massa, recheio: b.recheio, cobertura: b.cobertura, mensagem: b.mensagem, obs: b.obs, preco: b.kg * PRECO_KG_BOLO };
+      }),
+      obs: r.obs.trim()
+    });
+    estado.itens = {};
+    estado.bolos = [];
+    salvar();
+    atualizar();
+    atualizarDatas();
+    $("fila-numero").textContent = "nº " + p.numero;
+    $("fila-ver").href = "fila.html#pedido-" + p.numero;
+    $("enviado-fila").showModal();
+  }
+
   function ligarEnvio() {
+    var btnFila = $("enviar-fila"), dlgFila = $("enviado-fila");
+    if (btnFila) btnFila.addEventListener("click", enviarParaFila);
+    if (dlgFila) dlgFila.addEventListener("click", function (e) {
+      if (e.target === dlgFila || (e.target.closest && e.target.closest("[data-acao=fechar]"))) dlgFila.close();
+    });
     var dlg = $("confirmar");
     $("enviar").addEventListener("click", function () {
       if (!validarTudo()) return;

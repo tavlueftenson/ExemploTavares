@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fila de pedidos · Painel da equipe Apreciatta (protótipo)</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#4a1533">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/fila.css">
+  <style id="estilo-pagina"></style>
+  <script src="js/comum.js" defer></script>
+  <script src="js/fila-dados.js" defer></script>
+  <script src="js/fila.js" defer></script>
+</head>
+<body class="pagina-fila">
+  <div class="tela">
+    <div class="aviso-demo aviso-restrito" role="note">
+      Protótipo. Na versão real, esta área é restrita aos funcionários da Apreciatta e exige login. Aqui os pedidos são fictícios e ficam guardados só neste navegador.
+    </div>
+
+    <!-- Entrada simulada -->
+    <section class="entrada" id="entrada" aria-labelledby="entrada-titulo">
+      <div class="entrada-cartao">
+        <img src="img/logo-bordo.png" alt="" width="425" height="309">
+        <h1 id="entrada-titulo">Área da equipe</h1>
+        <p>A fila de pedidos é de uso interno da padaria. Na versão real, cada funcionário entra com o próprio e-mail e recebe um código de acesso; clientes e visitantes do site não conseguem abrir esta página.</p>
+        <div class="campo">
+          <label for="email-demo">E-mail do funcionário</label>
+          <input id="email-demo" type="email" value="atendimento@exemplo.com" disabled>
+          <p class="ajuda">Campo desativado nesta demonstração.</p>
+        </div>
+        <button type="button" class="botao" id="entrar">Entrar na demonstração</button>
+        <p><a href="./">Voltar ao site</a></p>
+      </div>
+    </section>
+
+    <!-- Painel -->
+    <div id="painel" hidden>
+      <header class="cabecalho-equipe">
+        <div class="recipiente">
+          <a class="marca" href="./" aria-label="Apreciatta, voltar ao site">
+            <img src="img/logo-branco.png" alt="" width="425" height="309">
+            <span>Apreciatta</span>
+          </a>
+          <span class="selo-equipe">Painel da equipe</span>
+          <nav class="acoes-topo" aria-label="Conta">
+            <span class="usuario" aria-label="Usuário conectado">atendimento@exemplo.com</span>
+            <button type="button" class="link-claro" id="sair">Sair</button>
+          </nav>
+        </div>
+      </header>
+
+      <main class="recipiente painel-corpo" id="conteudo">
+        <div class="painel-topo">
+          <div>
+            <h1>Fila de pedidos</h1>
+            <p class="resumo-fila" id="resumo-fila" aria-live="polite"></p>
+          </div>
+          <div class="ferramentas" role="group" aria-label="Ferramentas">
+            <button type="button" class="botao secundario pequeno" id="imprimir-fila">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Imprimir fila
+            </button>
+            <button type="button" class="botao secundario pequeno" id="abrir-producao">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              Lista de produção
+            </button>
+            <button type="button" class="botao secundario pequeno" id="som" aria-pressed="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+              <span>Som ligado</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="filtros-fila">
+          <div class="segmento" role="group" aria-label="Período de retirada" id="filtro-periodo">
+            <button type="button" data-periodo="hoje" aria-pressed="true">Hoje</button>
+            <button type="button" data-periodo="amanha" aria-pressed="false">Amanhã</button>
+            <button type="button" data-periodo="proximos" aria-pressed="false">Próximos dias</button>
+            <button type="button" data-periodo="todos" aria-pressed="false">Todos</button>
+          </div>
+          <div class="filtros" role="group" aria-label="Situação do pedido" id="filtro-situacao"></div>
+          <div class="campo busca">
+            <label for="busca" class="sr">Buscar por nome ou número</label>
+            <input id="busca" type="search" placeholder="Buscar por nome ou número" autocomplete="off">
+          </div>
+        </div>
+
+        <div id="lista-fila" aria-live="polite"></div>
+
+        <section class="sobre-prototipo" aria-labelledby="sobre-titulo">
+          <h2 id="sobre-titulo">Sobre este protótipo</h2>
+          <p>Para ver um pedido chegar, faça um pedido na aba <a href="pedido.html">Faça um pedido</a> e use o botão "Enviar para a fila (demonstração)". Se este painel estiver aberto em outra aba, o pedido aparece com aviso sonoro.</p>
+          <p>Na versão real, os pedidos ficariam num banco de dados da padaria, os concluídos seriam apagados automaticamente depois de alguns dias e o botão de aviso abriria o WhatsApp da padaria na conversa com o cliente.</p>
+          <button type="button" class="botao secundario pequeno" id="restaurar">Restaurar pedidos de exemplo</button>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Prévia do WhatsApp -->
+  <dialog class="confirmar dialogo-whats" id="dlg-whats" aria-labelledby="whats-titulo">
+    <h2 id="whats-titulo">Avisar cliente pelo WhatsApp</h2>
+    <p class="para"><span>Para:</span> <strong id="whats-para"></strong></p>
+    <div class="conversa"><p class="balao" id="whats-texto"></p></div>
+    <p class="nota-prototipo">Prévia do protótipo: nenhuma mensagem é enviada. Na versão real, este botão abriria o WhatsApp da padaria já na conversa com o cliente, com o texto pronto.</p>
+    <p class="erro" id="whats-copiado" role="status"></p>
+    <div class="acoes">
+      <button type="button" class="botao secundario" data-acao="copiar">Copiar mensagem</button>
+      <button type="button" class="botao secundario" data-acao="fechar">Fechar</button>
+      <button type="button" class="botao whats" data-acao="avisado">Marcar como avisado</button>
+    </div>
+  </dialog>
+
+  <!-- Confirmação de cancelamento -->
+  <dialog class="confirmar" id="dlg-cancelar" aria-labelledby="cancelar-titulo">
+    <h2 id="cancelar-titulo">Cancelar pedido?</h2>
+    <p id="cancelar-texto"></p>
+    <div class="acoes">
+      <button type="button" class="botao secundario" data-acao="voltar">Voltar</button>
+      <button type="button" class="botao perigo" data-acao="cancelar">Cancelar pedido</button>
+    </div>
+  </dialog>
+
+  <!-- Lista de produção -->
+  <dialog class="confirmar" id="dlg-producao" aria-labelledby="producao-titulo">
+    <h2 id="producao-titulo">Lista de produção</h2>
+    <p>Soma dos produtos e bolos dos pedidos novos, confirmados e em produção com retirada no dia escolhido.</p>
+    <div class="campo">
+      <label for="producao-data">Dia da retirada</label>
+      <input type="date" id="producao-data">
+    </div>
+    <p class="ajuda" id="producao-contagem"></p>
+    <div class="acoes">
+      <button type="button" class="botao secundario" data-acao="fechar">Fechar</button>
+      <button type="button" class="botao" data-acao="imprimir">Imprimir lista</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Conteúdo preenchido só na hora de imprimir -->
+  <div id="area-impressao" aria-hidden="true"></div>
+</body>
+</html>

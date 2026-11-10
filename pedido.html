@@ -10,6 +10,7 @@
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="stylesheet" href="css/estilo.css">
   <script src="js/comum.js" defer></script>
+  <script src="js/fila-dados.js" defer></script>
   <script src="js/pedido.js" defer></script>
 </head>
 <body>
@@ -126,7 +127,8 @@
                 </div>
                 <div class="campo">
                   <label for="telefone">Telefone (opcional)</label>
-                  <input id="telefone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(54) 99999-9999">
+                  <input id="telefone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(54) 99999-9999" aria-describedby="erro-telefone">
+                  <p class="erro" id="erro-telefone"></p>
                 </div>
                 <div class="campo">
                   <label for="data">Dia da retirada</label>
@@ -169,6 +171,10 @@
                 Enviar pedido pelo WhatsApp
               </button>
               <p class="erro erro-geral" id="erro-geral" role="alert"></p>
+              <div class="demo-fila">
+                <p>Demonstração da fila de pedidos: em vez do WhatsApp, o pedido vai direto para o painel da equipe.</p>
+                <button type="button" class="botao secundario" id="enviar-fila">Enviar para a fila (demonstração)</button>
+              </div>
             </div>
           </div>
         </aside>
@@ -193,6 +199,7 @@
       </div>
       <div>
         <p><a href="./">Início</a></p>
+        <p><a href="fila.html">Área da equipe (demonstração)</a></p>
         <p><a href="tel:+555434120019">(54) 3412-0019</a></p>
         <p><a href="tel:+555430351444">(54) 3035-1444</a></p>
       </div>
@@ -206,6 +213,16 @@
     <div class="acoes">
       <button type="button" class="botao secundario" data-acao="voltar">Voltar</button>
       <button type="button" class="botao whats" data-acao="enviar">Enviar mesmo assim</button>
+    </div>
+  </dialog>
+
+  <dialog class="confirmar" id="enviado-fila" aria-labelledby="enviado-fila-titulo">
+    <h2 id="enviado-fila-titulo">Pedido <span id="fila-numero"></span> enviado para a fila</h2>
+    <p>Na versão real, o pedido chegaria ao painel da padaria, que só os funcionários acessam com login, e a equipe avisaria você pelo WhatsApp quando ele estivesse pronto.</p>
+    <p class="texto-suave">Nesta demonstração, você pode abrir o painel como se fosse um funcionário. Ele usa apenas dados guardados neste navegador.</p>
+    <div class="acoes">
+      <button type="button" class="botao secundario" data-acao="fechar">Fechar</button>
+      <a class="botao" id="fila-ver" href="fila.html">Ver a fila como funcionário</a>
     </div>
   </dialog>
 
